@@ -1,93 +1,105 @@
 # ParaBank QA Automation Assessment
 
-This repo contains a small set of automated checks for ParaBank, a demo banking app.
-I used ParaBank because the flows are easy to understand and it gives me login, transfer, and API scenarios to work with in one place.
+This repository contains UI, API, and manual test coverage for ParaBank, a demo banking application. The focus is the Transfer Funds workflow because it exercises realistic banking concerns: authentication, source/destination account selection, amount validation, balance changes, and transaction history.
 
-## Framework and language
+## Tech Stack
 
 - JavaScript
 - Playwright for UI automation
 - Playwright `APIRequestContext` for API checks
 - `@playwright/test` as the test runner
-- Page Object Model for UI structure
+- Page Object Model for UI pages and API client objects
 
-## Project structure
+## Project Structure
 
-```
+```text
 parabank-qa-automation-assessment/
-├── ui-tests/
-│   ├── pages/
-│   │   ├── LoginPage.js
-│   │   └── TransferFundsPage.js
-│   └── transferFunds.spec.js
-├── api-tests/
-│   └── parabank-api.spec.js
-├── test-cases/
-│   └── manual-test-cases.md
-├── playwright.config.js
-├── package.json
-└── README.md
+|-- api-tests/
+|   |-- pages/
+|   |   `-- ParaBankApiClient.js
+|   `-- parabank-api.spec.js
+|-- base/
+|   |-- BaseApiClient.js
+|   `-- BasePage.js
+|-- test-cases/
+|   `-- manual-test-cases.md
+|-- ui-tests/
+|   |-- pages/
+|   |   |-- LoginPage.js
+|   |   `-- TransferFundsPage.js
+|   `-- transferFunds.spec.js
+|-- package.json
+`-- playwright.config.js
 ```
 
 ## Setup
 
+Prerequisites:
+
 - Node.js 18 or later
 - npm 9 or later
+
+Install dependencies and browser binaries:
 
 ```bash
 npm install
 npx playwright install chromium
 ```
 
-## How to run
+## How To Run
 
-Run everything:
+Run all tests:
 
 ```bash
-npx playwright test
+npm test
 ```
 
 Run only UI tests:
 
 ```bash
-npx playwright test ui-tests/
+npm run test:ui
 ```
 
 Run only API tests:
 
 ```bash
-npx playwright test api-tests/
-```
-
-Run UI tests in headed mode:
-
-```bash
-npx playwright test ui-tests/transferFunds.spec.js --headed
+npm run test:api
 ```
 
 Open the HTML report:
 
 ```bash
-npx playwright show-report
+npm run report
 ```
 
 Optional environment variables:
 
 ```bash
-PARABANK_USERNAME=myuser PARABANK_PASSWORD=mypassword npx playwright test
+PARABANK_USERNAME=myuser PARABANK_PASSWORD=mypassword npm run test:ui
+PARABANK_API_USERNAME=myuser PARABANK_API_PASSWORD=mypassword npm run test:api
 ```
 
-## UI coverage
+## Automated Coverage
 
-- TC-001: valid login and open Transfer Funds page
-- TC-002: valid transfer between accounts
-- TC-004: non-numeric amount should not complete a transfer
+### UI
 
-TC-003 is kept in the manual cases.
+- `TC-001`: valid login and navigation to the Transfer Funds page.
+- `TC-002`: valid transfer between two accounts with confirmation message assertions.
+- `TC-004`: non-numeric amount does not complete a transfer and keeps the user on the form.
 
-## Assumptions and limitations
+### API
 
-- The project uses the public ParaBank demo site by default.
-- UI login tests need valid ParaBank credentials if you want to run them against a real account.
-- The API tests cover the transfer and transaction flows that matter for this assessment.
-- TC-003 stays manual because it is a negative validation case and is easier to explain there.
+- `TC-API-01`: valid transfer returns success and verifies both source and destination balances change by the transfer amount.
+- `TC-API-02`: transfer from a non-existent account returns a 4xx error.
+- `TC-API-03`: account transactions endpoint returns transaction records with expected schema.
+
+## Manual Coverage
+
+Manual scenarios are documented in `test-cases/manual-test-cases.md` for validation and access-control cases that are useful to describe even when the demo app behavior may vary.
+
+## Assumptions And Limitations
+
+- The public ParaBank demo site is used by default.
+- Tests reset the ParaBank demo database before execution so the `john/demo` account exists.
+- UI tests depend on the public demo site being available and responsive.
+- Some negative validation behavior is kept manual because the demo app does not consistently expose field-level validation messages.
