@@ -1,154 +1,88 @@
-Manual Test Cases - ParaBank Transfer Funds
+# Manual Test Cases - ParaBank Transfer Funds
 
-
-TC ID : 001: 
-Valid Login and Open Transfer Funds Page
-
-Test description: Verify that a valid user can able to log in and open the tranfer funds page.
-
+## TC-001
+Test description: Valid login and open the Transfer Funds page.
 Steps:
- 1. Open the Parabank Application
- 2. Enter valid username and password
- 3. click Login in.
- 4. click Transfer funds from the left menu
-
-Expected result:
-User should log in successfully and the transfer funds page should be displayed.
-
+  1. Open the ParaBank application.
+  2. Enter a valid username and password.
+  3. Click `Log In`.
+  4. Click `Transfer Funds` from the left menu.
+Expected result: The customer lands on the Transfer Funds page and can see the amount field, source account, destination account, and transfer controls.
 Priority: High
 
---------------------------------------------------------------------------------------------------------------------------------
-
-TC: 002
-Transfer Valid Amount Between Accounts
-
-Test description: Verify that a user can transfer a valid amount between two accounts.
-
+## TC-002
+Test description: Transfer a valid amount between two owned accounts.
 Steps:
-1. Log in with valid credentials.
-2. Open Transfer Funds page.
-3. Enter a valid amount in the amount field.(eg 100)
-4. Select source account.
-5. Select destination account.
-6. Click Transfer button.
-
-Expected result:
-User should be able to transfer the amount successfully and a confirmation message should be display the transferred amount and account details.
-
+  1. Log in with valid credentials.
+  2. Open the Transfer Funds page.
+  3. Enter a valid amount, for example `100`.
+  4. Select a source account.
+  5. Select a different destination account.
+  6. Click `Transfer`.
+Expected result: The page shows `Transfer Complete!` and a confirmation message like `-$50.00 has been transferred from account #12345 to account #12345.` with a note to see Account Activity for more details.
 Priority: High
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-TC-003:
-transfer with Empty amount
-
-Test description: Verify that transfer cannot be completed when amount is empty.
-
+## TC-003
+Test description: Transfer with an empty amount field.
 Steps:
-1. Log in with valid credentials.
-2. Open Transfer Funds page.
-3. Leave amount field empty.
-4. Select source account.
-5. Select destination account.
-6. Click Transfer button.
-
-Expected result:
-User should not be able to transfer the amount successfully and an error message should be displayed.
-
+  1. Log in with valid credentials.
+  2. Open the Transfer Funds page.
+  3. Leave the amount field empty.
+  4. Select source and destination accounts.
+  5. Click `Transfer`.
+Expected result: The transfer does not complete and the customer sees a validation message or remains on the transfer form without a success confirmation.
 Priority: High
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-TC-004:
-Transfer With Non- Numeric Amount
-
-Test Description: Verify that transfer cannot be completed with non- numeric amount.
-
+## TC-004
+Test description: Transfer with a non-numeric amount.
 Steps:
-1. Log in with valid credentials.
-2. Open transfer Funds page.
-3, Ebter 'abcd' in amount field.
-4. select source account
-5. select the destination account
-6. clcik transfer.
-
-Expected result:
-Transfer should not complete and user should see an error or validation message
-
+  1. Log in with valid credentials.
+  2. Open the Transfer Funds page.
+  3. Enter `abcd` in the amount field.
+  4. Select source and destination accounts.
+  5. Click `Transfer`.
+Expected result: The transfer does not complete and no account balance changes.
 Priority: High
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-TC-005:
-Transfer with Negative value amount.
-
-Test Descriptiion: Verify that transfer cannot be completed with negative value amount.
-
+## TC-005
+Test description: Transfer a decimal amount between two accounts.
 Steps:
-1. Log in with valid credentials.
-2. Open Transfer Funds page.
-3. Enter a -50 in the amount field.
-4. Select source account.
-5. Select destination account.
-6. Click Transfer button.
-
-Expected result:
-Transfer should not complete and user should see an error or validation message.
-
+  1. Log in with valid credentials.
+  2. Open the Transfer Funds page.
+  3. Enter `50.75` in the amount field.
+  4. Select a source account.
+  5. Select a different destination account.
+  6. Click `Transfer`.
+Expected result: The page shows `Transfer Complete!` and the confirmation message includes the decimal amount.
 Priority: High
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-TC-006:
-Transfer with Zero value amount.
-
-Test Descriptiion: Verify that transfer cannot be completed with zero value amount.
-
+## TC-006
+Test description: Transfer a small amount and verify the success summary.
 Steps:
-1. Log in with valid credentials.
-2. Open Transfer Funds page.
-3. Enter a 0 in the amount field.
-4. Select source account.
-5. Select destination account.
-6. Click Transfer button.
-
-Expected result:
-Transfer should not complete and user should see an error or validation message.
-
+  1. Log in with valid credentials.
+  2. Open the Transfer Funds page.
+  3. Enter `25` in the amount field.
+  4. Select a source account.
+  5. Select a different destination account.
+  6. Click `Transfer`.
+Expected result: The page shows `Transfer Complete!` and the confirmation message includes the transferred amount and account numbers.
 Priority: High
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-TC-007:
-Transfer using same source and destination account
-
-Test Description: Verify that transfer cannot be completed when source and destination accounts are the same.
-
+## TC-007
+Test description: Verify Account Activity after a successful transfer.
 Steps:
-1. Log in with valid credentials.
-2. Open Transfer Funds page.
-3. Enter a valid amount, for example `100`.
-4. Select same account in From Account and To Account fields.
-5. Click Transfer.
-
-Expected Result: Transfer should not complete or user should see a validation message.
-
+  1. Log in with valid credentials.
+  2. Open the Transfer Funds page.
+  3. Complete a transfer with a valid amount.
+  4. Open the Account Activity page or section.
+  5. Confirm the recent transfer appears in the transaction list.
+Expected result: The Account Activity view is visible and the transfer is listed in the transaction history.
 Priority: Medium
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-TC-008:
-Access Transfer Funds Without Login
-
-Test Description: Verify that unauthenticated user cannot access Transfer Funds page.
-
+## TC-008
+Test description: Access the Transfer Funds page without logging in.
 Steps:
-1. Open ParaBank application.
-2. Navigate directly to Transfer Funds URL without logging in.
-
-Expected Result: User should not access the Transfer Funds page and should be redirected to login or shown an authentication error.
-
+  1. Open a fresh browser session without logging in.
+  2. Navigate directly to the Transfer Funds URL.
+Expected result: The user cannot access the Transfer Funds page and is redirected to login or shown an authentication error.
 Priority: High
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
