@@ -1,0 +1,19 @@
+{
+  "name": "parabank-qa-automation-assessment",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test ui-tests/",
+    "test:api": "playwright test api-tests/",
+    "test:headed": "playwright test ui-tests/ --headed",
+    "report": "playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
+  }
+}
