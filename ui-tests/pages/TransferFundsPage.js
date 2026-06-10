@@ -12,71 +12,35 @@ class TransferFundsPage extends BasePage {
         this.transferForm = page.locator('#transferForm');
     }
 
-    /**
-     * Navigate to the Transfer Funds page and wait for account dropdowns to be populated.
-     */
     async open() {
         await this.page.getByRole('link', { name: 'Transfer Funds' }).click();
         await this.waitForUrl('**/transfer.htm');
-        // Wait for the page's AJAX to populate the account dropdowns
         await this.page.waitForFunction(() => {
-            const sel = document.querySelector('select#fromAccountId');
-            return sel && sel.options.length > 0;
+            const from = document.querySelector('select#fromAccountId');
+            const to = document.querySelector('select#toAccountId');
+            return from?.options.length > 0 && to?.options.length > 0;
         });
     }
 
-    /**
-     * Ensures at least two accounts exist (required for a valid transfer).
-     * Opens a new Savings account via the UI if only one account is found.
-     */
-    async ensureTwoAccounts() {
-        const fromOptions = await this.fromAccountSelect.locator('option').all();
-        if (fromOptions.length < 2) {
-            await this.page.getByRole('link', { name: 'Open New Account' }).click();
-            await this.waitForUrl('**/openaccount.htm');
-
-            await this.page.locator('select#type').selectOption('1');
-            await this.page.waitForFunction(() => {
-                const sel = document.querySelector('select#fromAccountId');
-                return sel && sel.options.length > 0;
-            });
-
-            await this.page.locator('input[value="Open New Account"]').click();
-            await this.waitForVisible(this.page.locator('#openAccountResult'));
-
-            await this.page.getByRole('link', { name: 'Transfer Funds' }).click();
-            await this.waitForUrl('**/transfer.htm');
-            await this.page.waitForFunction(() => {
-                const sel = document.querySelector('select#fromAccountId');
-                return sel && sel.options.length >= 2;
-            });
-        }
-    }
-
-    /**
-     * Fills in the transfer amount and selects distinct from/to accounts before submitting.
-     * @param {string} amount
-     */
     async transfer(amount) {
         await this.amountInput.fill(amount);
 
-        const fromOptions = await this.fromAccountSelect.locator('option').all();
-        const toOptions = await this.toAccountSelect.locator('option').all();
+        const fromOptions = await this.fromAccountSelect.locator('option').evaluateAll((options) =>
+            options
+                .map((option) => option.value)
+                .filter((value) => value)
+        );
 
-        if (fromOptions.length >= 2 && toOptions.length >= 2) {
-            const fromValue = await fromOptions[0].getAttribute('value');
-            const toValue = await toOptions[1].getAttribute('value');
-            await this.fromAccountSelect.selectOption(fromValue);
-            await this.toAccountSelect.selectOption(toValue);
+        if (fromOptions.length < 2) {
+            throw new Error('Need at least two accounts to run the transfer test.');
         }
+
+        await this.fromAccountSelect.selectOption(fromOptions[0]);
+        await this.toAccountSelect.selectOption(fromOptions[1]);
 
         await this.transferButton.click();
     }
 
-    /**
-     * Asserts that a transfer completed successfully.
-     * @param {string} amount
-     */
     async expectTransferComplete(amount) {
         await this.waitForVisible(this.showResult, 15_000);
         const formatted = `$${parseFloat(amount).toFixed(2)} has been transferred`;
@@ -84,10 +48,6 @@ class TransferFundsPage extends BasePage {
         await expect(this.showResult).toContainText(formatted);
     }
 
-    /**
-     * Asserts that a transfer did NOT complete (negative scenario).
-     * Verifies: result panel stays hidden, URL unchanged, form still visible.
-     */
     async expectTransferNotComplete() {
         await expect(this.showResult).toBeHidden();
         await expect(this.page).toHaveURL(/transfer\.htm/);
