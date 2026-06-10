@@ -49,7 +49,7 @@ test.describe('ParaBank Transfer Funds UI Tests', () => {
         await loginPage.login(username, password);
 
         await transferFundsPage.open();
-        await transferFundsPage.transfer('abc');
+        await transferFundsPage.transfer('abcd');
 
         await transferFundsPage.expectTransferNotComplete();
     });

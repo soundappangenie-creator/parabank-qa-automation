@@ -70,15 +70,18 @@ Transferring to the same account is not a valid operation.
 Priority: High
 
 ## TC-007
-Test description: Open Account Activity after a successful transfer.
+Test description: Transfer with amount = 0 (boundary value).
 Steps:
   1. Log in with valid credentials.
   2. Open the Transfer Funds page.
-  3. Complete a transfer with a valid amount.
-  4. Click the `Account Activity` link.
-  5. Confirm the recent transfer appears in the transaction list.
-Expected result: The Account Activity page is visible and the transfer is listed in the transaction history.
-Priority: Medium
+  3. Enter `0` in the amount field.
+  4. Select a source account.
+  5. Select a different destination account.
+  6. Click `Transfer`.
+Expected result: The system should reject the transfer and display a 
+validation error. A zero-value transaction has no financial meaning 
+and should not be processed.
+Priority: High
 
 ## TC-008
 Test description: Access the Transfer Funds page without logging in.
