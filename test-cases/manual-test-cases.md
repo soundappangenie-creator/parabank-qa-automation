@@ -15,11 +15,12 @@ Test description: Transfer a valid amount between two owned accounts.
 Steps:
   1. Log in with valid credentials.
   2. Open the Transfer Funds page.
-  3. Enter a valid amount, for example `100`.
+  3. Enter a valid amount, for example `150`.
   4. Select a source account.
   5. Select a different destination account.
   6. Click `Transfer`.
-Expected result: The page shows `Transfer Complete!` and a confirmation message like `-$50.00 has been transferred from account #12345 to account #12345.` with a note to see Account Activity for more details.
+Expected result: The page shows `Transfer Complete!` and a confirmation message like `$150.00 has been transferred from account #12345 to account #67890` with a note 
+to see Account Activity for more details.
 Priority: High
 
 ## TC-003
@@ -57,26 +58,26 @@ Expected result: The page shows `Transfer Complete!` and the confirmation messag
 Priority: High
 
 ## TC-006
-Test description: Transfer a small amount and verify the success summary.
+Test description: Transfer when source and destination accounts are the same.
 Steps:
   1. Log in with valid credentials.
   2. Open the Transfer Funds page.
-  3. Enter `25` in the amount field.
-  4. Select a source account.
-  5. Select a different destination account.
-  6. Click `Transfer`.
-Expected result: The page shows `Transfer Complete!` and the confirmation message includes the transferred amount and account numbers.
+  3. Enter `100` in the amount field.
+  4. Select the same account for both source and destination.
+  5. Click `Transfer`.
+Expected result: The transfer is rejected and an error message is shown. 
+Transferring to the same account is not a valid operation.
 Priority: High
 
 ## TC-007
-Test description: Verify Account Activity after a successful transfer.
+Test description: Open Account Activity after a successful transfer.
 Steps:
   1. Log in with valid credentials.
   2. Open the Transfer Funds page.
   3. Complete a transfer with a valid amount.
-  4. Open the Account Activity page or section.
+  4. Click the `Account Activity` link.
   5. Confirm the recent transfer appears in the transaction list.
-Expected result: The Account Activity view is visible and the transfer is listed in the transaction history.
+Expected result: The Account Activity page is visible and the transfer is listed in the transaction history.
 Priority: Medium
 
 ## TC-008
@@ -86,3 +87,4 @@ Steps:
   2. Navigate directly to the Transfer Funds URL.
 Expected result: The user cannot access the Transfer Funds page and is redirected to login or shown an authentication error.
 Priority: High
+ 
